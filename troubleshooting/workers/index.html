@@ -1,0 +1,1599 @@
+<!DOCTYPE html>
+<html lang="en" class="js csstransforms3d">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="Hugo 0.80.0" />
+    <meta name="description" content="Amazon EKS Workshop">
+<meta name="author" content="Brent Langston">
+
+    <link rel="shortcut icon" href="../../images/favicon.ico" type="image/x-icon" />
+<link rel="icon" href="../../images/favicon.ico" type="image/x-icon" />
+
+    <title>Data Plane - Worker Node Logs :: Amazon EKS Workshop</title>
+
+    
+    <link href="../../css/nucleus.css?1650587409" rel="stylesheet">
+    <link href="../../css/fontawesome-all.min.css?1650587409" rel="stylesheet">
+    <link href="../../css/hybrid.css?1650587409" rel="stylesheet">
+    <link href="../../css/featherlight.min.css?1650587409" rel="stylesheet">
+    <link href="../../css/perfect-scrollbar.min.css?1650587409" rel="stylesheet">
+    <link href="../../css/auto-complete.css?1650587409" rel="stylesheet">
+    <link href="../../css/atom-one-dark-reasonable.css?1650587409" rel="stylesheet">
+    <link href="../../css/theme.css?1650587409" rel="stylesheet">
+    <link href="../../css/hugo-theme.css?1650587409" rel="stylesheet">
+    
+      <link href="../../css/theme-mine.css?1650587409" rel="stylesheet">
+    
+
+    <script src="../../js/jquery-3.3.1.min.js?1650587409"></script>
+
+    <style>
+      :root #header + #content > #left > #rlblock_left{
+          display:none !important;
+      }
+      
+        :not(pre) > code + span.copy-to-clipboard {
+            display: none;
+        }
+      
+    </style>
+    <!DOCTYPE html>
+<html class="no-js" lang="en-US" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+<html lang="en" class="js csstransforms3d">
+  <head>
+
+    <link rel="manifest" href="../../manifest.json">
+
+    <meta charset="utf-8">
+    <meta property="og:title" content="EKSworkshop.com" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://eksworkshop.com" />
+    <meta property="og:image" content="https://eksworkshop.com/images/3-service-animated.gif" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="../../icons/apple-touch-icon-57x57.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../../icons/apple-touch-icon-114x114.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../../icons/apple-touch-icon-72x72.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../../icons/apple-touch-icon-144x144.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="60x60" href="../../icons/apple-touch-icon-60x60.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="../../icons/apple-touch-icon-120x120.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="76x76" href="../../icons/apple-touch-icon-76x76.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../icons/apple-touch-icon-152x152.png" />
+    <link rel="icon" type="image/png" href="../../icons/favicon-196x196.png" sizes="196x196" />
+    <link rel="icon" type="image/png" href="../../icons/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/png" href="../../icons/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="../../icons/favicon-16x16.png" sizes="16x16" />
+    <link rel="icon" type="image/png" href="../../icons/favicon-128.png" sizes="128x128" />
+    <meta name="application-name" content="Amazon EKS Workshop"/>
+    <meta name="msapplication-TileColor" content="#FFFFFF" />
+    <meta name="msapplication-TileImage" content="/icons/mstile-144x144.png" />
+    <meta name="msapplication-square70x70logo" content="/icons/mstile-70x70.png" />
+    <meta name="msapplication-square150x150logo" content="/icons/mstile-150x150.png" />
+    <meta name="msapplication-wide310x150logo" content="/icons/mstile-310x150.png" />
+    <meta name="msapplication-square310x310logo" content="/icons/mstile-310x310.png" />
+
+    <link href="../../mermaid/mermaid.css?1650587409" type="text/css" rel="stylesheet" />
+    <link href="../../css/jquery-ui.min.css?1650587409" rel="stylesheet">
+    <script src="../../js/jquery-ui-1.12.1.min.js?1650587409"></script>
+    <script src="../../mermaid/mermaid.min.js?1650587409"></script>
+    <script>
+	var config = {
+        startOnLoad:true,
+        flowchart:{
+	    curve:'basis'
+        }
+      };
+        mermaid.initialize(config);
+    </script>
+
+  </head>
+  <body class="" data-url="../../troubleshooting/workers/">
+    <nav id="sidebar" class="">
+
+
+
+  <div id="header-wrapper">
+    <div id="header">
+      <a href="../../" title="Go home"><svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 30" width="60%" style="padding:20px 0px;"><defs><style>.cls-1{fill:#fff;}.cls-2{fill:#f90;fill-rule:evenodd;}</style></defs><title>AWS-Logo_White-Color</title><path class="cls-1" d="M14.09,10.85a4.7,4.7,0,0,0,.19,1.48,7.73,7.73,0,0,0,.54,1.19.77.77,0,0,1,.12.38.64.64,0,0,1-.32.49l-1,.7a.83.83,0,0,1-.44.15.69.69,0,0,1-.49-.23,3.8,3.8,0,0,1-.6-.77q-.25-.42-.51-1a6.14,6.14,0,0,1-4.89,2.3,4.54,4.54,0,0,1-3.32-1.19,4.27,4.27,0,0,1-1.22-3.2A4.28,4.28,0,0,1,3.61,7.75,6.06,6.06,0,0,1,7.69,6.46a12.47,12.47,0,0,1,1.76.13q.92.13,1.91.36V5.73a3.65,3.65,0,0,0-.79-2.66A3.81,3.81,0,0,0,7.86,2.3a7.71,7.71,0,0,0-1.79.22,12.78,12.78,0,0,0-1.79.57,4.55,4.55,0,0,1-.58.22l-.26,0q-.35,0-.35-.52V2a1.09,1.09,0,0,1,.12-.58,1.2,1.2,0,0,1,.47-.35A10.88,10.88,0,0,1,5.77.32,10.19,10.19,0,0,1,8.36,0a6,6,0,0,1,4.35,1.35,5.49,5.49,0,0,1,1.38,4.09ZM7.34,13.38a5.36,5.36,0,0,0,1.72-.31A3.63,3.63,0,0,0,10.63,12,2.62,2.62,0,0,0,11.19,11a5.63,5.63,0,0,0,.16-1.44v-.7a14.35,14.35,0,0,0-1.53-.28,12.37,12.37,0,0,0-1.56-.1,3.84,3.84,0,0,0-2.47.67A2.34,2.34,0,0,0,5,11a2.35,2.35,0,0,0,.61,1.76A2.4,2.4,0,0,0,7.34,13.38Zm13.35,1.8a1,1,0,0,1-.64-.16,1.3,1.3,0,0,1-.35-.65L15.81,1.51a3,3,0,0,1-.15-.67.36.36,0,0,1,.41-.41H17.7a1,1,0,0,1,.65.16,1.4,1.4,0,0,1,.33.65l2.79,11,2.59-11A1.17,1.17,0,0,1,24.39.6a1.1,1.1,0,0,1,.67-.16H26.4a1.1,1.1,0,0,1,.67.16,1.17,1.17,0,0,1,.32.65L30,12.39,32.88,1.25A1.39,1.39,0,0,1,33.22.6a1,1,0,0,1,.65-.16h1.54a.36.36,0,0,1,.41.41,1.36,1.36,0,0,1,0,.26,3.64,3.64,0,0,1-.12.41l-4,12.86a1.3,1.3,0,0,1-.35.65,1,1,0,0,1-.64.16H29.25a1,1,0,0,1-.67-.17,1.26,1.26,0,0,1-.32-.67L25.67,3.64,23.11,14.34a1.26,1.26,0,0,1-.32.67,1,1,0,0,1-.67.17Zm21.36.44a11.28,11.28,0,0,1-2.56-.29,7.44,7.44,0,0,1-1.92-.67,1,1,0,0,1-.61-.93v-.84q0-.52.38-.52a.9.9,0,0,1,.31.06l.42.17a8.77,8.77,0,0,0,1.83.58,9.78,9.78,0,0,0,2,.2,4.48,4.48,0,0,0,2.43-.55,1.76,1.76,0,0,0,.86-1.57,1.61,1.61,0,0,0-.45-1.16A4.29,4.29,0,0,0,43,9.22l-2.41-.76A5.15,5.15,0,0,1,38,6.78a3.94,3.94,0,0,1-.83-2.41,3.7,3.7,0,0,1,.45-1.85,4.47,4.47,0,0,1,1.19-1.37A5.27,5.27,0,0,1,40.51.29,7.4,7.4,0,0,1,42.6,0a8.87,8.87,0,0,1,1.12.07q.57.07,1.08.19t.95.26a4.27,4.27,0,0,1,.7.29,1.59,1.59,0,0,1,.49.41.94.94,0,0,1,.15.55v.79q0,.52-.38.52a1.76,1.76,0,0,1-.64-.2,7.74,7.74,0,0,0-3.2-.64,4.37,4.37,0,0,0-2.21.47,1.6,1.6,0,0,0-.79,1.48,1.58,1.58,0,0,0,.49,1.18,4.94,4.94,0,0,0,1.83.92L44.55,7a5.08,5.08,0,0,1,2.57,1.6A3.76,3.76,0,0,1,47.9,11a4.21,4.21,0,0,1-.44,1.93,4.4,4.4,0,0,1-1.21,1.47,5.43,5.43,0,0,1-1.85.93A8.25,8.25,0,0,1,42.05,15.62Z"></path><path class="cls-2" d="M45.19,23.81C39.72,27.85,31.78,30,25,30A36.64,36.64,0,0,1,.22,20.57c-.51-.46-.06-1.09.56-.74A49.78,49.78,0,0,0,25.53,26.4,49.23,49.23,0,0,0,44.4,22.53C45.32,22.14,46.1,23.14,45.19,23.81Z"></path><path class="cls-2" d="M47.47,21.21c-.7-.9-4.63-.42-6.39-.21-.53.06-.62-.4-.14-.74,3.13-2.2,8.27-1.57,8.86-.83s-.16,5.89-3.09,8.35c-.45.38-.88.18-.68-.32C46.69,25.8,48.17,22.11,47.47,21.21Z"></path></svg></a>
+
+    </div>
+    
+        <div class="searchbox">
+    <label for="search-by"><i class="fas fa-search"></i></label>
+    <input data-search-input id="search-by" type="search" placeholder="Search...">
+    <span data-search-clear=""><i class="fas fa-times"></i></span>
+</div>
+
+<script type="text/javascript" src="../../js/lunr.min.js?1650587409"></script>
+<script type="text/javascript" src="../../js/auto-complete.js?1650587409"></script>
+<script type="text/javascript">
+    
+        var baseurl = "";
+    
+</script>
+<script type="text/javascript" src="../../js/search.js?1650587409"></script>
+
+    
+  </div>
+
+    <div class="highlightable">
+    <ul class="topics">
+
+        
+          
+          
+
+
+ 
+  
+    
+    
+    
+    <li data-nav-id="/introduction/" title="Introduction" class="dd-item 
+        
+        
+        ">
+      <a href="../../introduction/">
+          Introduction
+          
+          
+      </a>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    
+    
+    <li data-nav-id="/concepts/" title="Concepts" class="dd-item 
+        
+        
+        ">
+      <a href="../../concepts/">
+          Concepts
+          
+          
+      </a>
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/concepts/k8s/" title="Kubernetes Components" class="dd-item ">
+        <a href="../../concepts/k8s/">
+        Kubernetes Components
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/concepts/eks/" title="EKS Components" class="dd-item ">
+        <a href="../../concepts/eks/">
+        EKS Components
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    
+    
+    <li data-nav-id="/getting-started/" title="Getting Started" class="dd-item 
+        
+        
+        ">
+      <a href="../../getting-started/">
+          Getting Started
+          
+          
+      </a>
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/getting-started/using-cloud9/" title="Using Cloud 9" class="dd-item ">
+        <a href="../../getting-started/using-cloud9/">
+        Using Cloud 9
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    
+    
+    <li data-nav-id="/troubleshooting/" title="Options for Troubleshooting" class="dd-item 
+        parent
+        
+        ">
+      <a href="../../troubleshooting/">
+          Options for Troubleshooting
+          
+          
+      </a>
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/troubleshooting/containerlogs/" title="Data Plane - Container Logs" class="dd-item ">
+        <a href="../../troubleshooting/containerlogs/">
+        Data Plane - Container Logs
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/troubleshooting/events/" title="Data Plane - Kubernetes Events" class="dd-item ">
+        <a href="../../troubleshooting/events/">
+        Data Plane - Kubernetes Events
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/troubleshooting/describe/" title="Data Plane - Get and Describe resources" class="dd-item ">
+        <a href="../../troubleshooting/describe/">
+        Data Plane - Get and Describe resources
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/troubleshooting/workers/" title="Data Plane - Worker Node Logs" class="dd-item active">
+        <a href="../../troubleshooting/workers/">
+        Data Plane - Worker Node Logs
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/troubleshooting/dpmetrics/" title="Data Plane - Metrics" class="dd-item ">
+        <a href="../../troubleshooting/dpmetrics/">
+        Data Plane - Metrics
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/troubleshooting/cpmetrics/" title="Control Plane - Metrics" class="dd-item ">
+        <a href="../../troubleshooting/cpmetrics/">
+        Control Plane - Metrics
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/troubleshooting/cplogs/" title="Control Plane - Logs" class="dd-item ">
+        <a href="../../troubleshooting/cplogs/">
+        Control Plane - Logs
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    
+    
+    <li data-nav-id="/microservice/" title="Installing Addons and Microservices" class="dd-item 
+        
+        
+        ">
+      <a href="../../microservice/">
+          Installing Addons and Microservices
+          
+          
+      </a>
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/microservice/addons/" title="Installing Addons" class="dd-item ">
+        <a href="../../microservice/addons/">
+        Installing Addons
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/microservice/tools/" title="Installing Troubleshooting Tools" class="dd-item ">
+        <a href="../../microservice/tools/">
+        Installing Troubleshooting Tools
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/microservice/microservice/" title="Installing Sock Shop Microservice" class="dd-item ">
+        <a href="../../microservice/microservice/">
+        Installing Sock Shop Microservice
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    
+    
+    <li data-nav-id="/traffic/" title="Injecting Traffic" class="dd-item 
+        
+        
+        ">
+      <a href="../../traffic/">
+          Injecting Traffic
+          
+          
+      </a>
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/traffic/simulator/" title="Installing Traffic Simulation Client" class="dd-item ">
+        <a href="../../traffic/simulator/">
+        Installing Traffic Simulation Client
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/traffic/trafficview/" title="Inspect Microservice traffic" class="dd-item ">
+        <a href="../../traffic/trafficview/">
+        Inspect Microservice traffic
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/traffic/exercise/" title="Exercises" class="dd-item ">
+        <a href="../../traffic/exercise/">
+        Exercises
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    
+    
+    <li data-nav-id="/extras/" title="Extras" class="dd-item 
+        
+        
+        ">
+      <a href="../../extras/">
+          Extras
+          
+          
+      </a>
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/extras/exec/" title="Debug running pods" class="dd-item ">
+        <a href="../../extras/exec/">
+        Debug running pods
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+ 
+  
+    
+      <li data-nav-id="/extras/cni/" title="Amazon VPC CNI for Kubernetes" class="dd-item ">
+        <a href="../../extras/cni/">
+        Amazon VPC CNI for Kubernetes
+        
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+ 
+  
+    
+    
+    
+    <li data-nav-id="/cleanup/" title="Clean Up" class="dd-item 
+        
+        
+        ">
+      <a href="../../cleanup/">
+          Clean Up
+          
+          
+      </a>
+              
+    </li>
+  
+ 
+
+          
+         
+    </ul>
+
+    
+    
+      <section id="shortcuts">
+        <h3>More</h3>
+        <ul>
+          
+              <li> 
+                  <a class="padding" href="https://containersfromthecouch.com"><i class='fab fa-youtube'></i> Containers from the Couch</a>
+              </li>
+          
+              <li> 
+                  <a class="padding" href="../../tags/con203"><i class='fab fa-aws'></i> CON203</a>
+              </li>
+          
+              <li> 
+                  <a class="padding" href="../../tags/con205"><i class='fab fa-aws'></i> CON205</a>
+              </li>
+          
+              <li> 
+                  <a class="padding" href="../../tags/con206"><i class='fab fa-aws'></i> CON206</a>
+              </li>
+          
+              <li> 
+                  <a class="padding" href="../../tags/opn401"><i class='fab fa-aws'></i> OPN401</a>
+              </li>
+          
+              <li> 
+                  <a class="padding" href="../../tags"><i class='fas fa-tags'></i> Tags</a>
+              </li>
+          
+              <li> 
+                  <a class="padding" href="https://appmeshworkshop.com"><i class='fas fa-chalkboard'></i> AppMesh Workshop</a>
+              </li>
+          
+              <li> 
+                  <a class="padding" href="https://ecsworkshop.com"><i class='fas fa-chalkboard'></i> ECS Workshop</a>
+              </li>
+          
+              <li> 
+                  <a class="padding" href="https://awsk8snetworkshops.com"><i class='fas fa-chalkboard'></i> EKS Networking Workshops</a>
+              </li>
+          
+              <li> 
+                  <a class="padding" href="https://awsworkshop.io"><i class='fas fa-chalkboard'></i> AWS Partner Workshops</a>
+              </li>
+          
+              <li> 
+                  <a class="padding" href="https://anywhere.eks.amazonaws.com/docs/getting-started/"><i class='fas fa-chalkboard'></i> EKS Anywhere</a>
+              </li>
+          
+              <li> 
+                  <a class="padding" href="../../more_resources"><i class='fas fa-bookmark'></i> More Resources</a>
+              </li>
+          
+              <li> 
+                  <a class="padding" href="../../authors"><i class='fas fa-users'></i> Authors</a>
+              </li>
+          
+              <li> 
+                  <a class="padding" href="https://github.com/aws-samples/eks-workshop"><i class='fab fa-github'></i> GitHub Project</a>
+              </li>
+          
+              <li> 
+                  <a class="padding" href="mailto:eksworkshop@amazon.com"><i class='fas fa-envelope'></i> Have questions?</a>
+              </li>
+          
+        </ul>
+      </section>
+    
+
+    
+    <section id="footer">
+      <left>
+    <a href="https://aws.amazon.com/privacy/?nc1=f_pr">Privacy</a> | <a href="https://aws.amazon.com/terms/?nc1=f_pr">Site Terms</a> | © 2022, Amazon Web Services, Inc. or its affiliates. All rights reserved. 
+</left>
+
+    </section>
+  </div>
+</nav>
+
+
+
+
+
+        <section id="body">
+        <div id="overlay"></div>
+        <div class="padding highlightable">
+              
+              <div>
+                <div id="top-bar">
+                
+                  
+                  
+                  
+                  <div id="top-github-link">
+                    <a class="github-link" title='Edit this page' href="https://github.com/aws-samples/eks-workshop/edit/main/content/troubleshooting/workers.md" target="blank">
+                      <i class="fas fa-code-branch"></i>
+                      <span id="top-github-link-text">Edit this page</span>
+                    </a>
+                  </div>
+                  
+                
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fas fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span id="toc-menu"><i class="fas fa-list-alt"></i></span>
+                  
+                  <span class="links">
+                 
+                 
+                    
+          
+          
+            
+            
+          
+          
+            
+            
+          
+          
+            <a href='../../'>Troubleshooting EKS Clusters</a> > <a href='../../troubleshooting/'>Options for Troubleshooting</a> > Data Plane - Worker Node Logs
+          
+         
+          
+         
+          
+        
+                 
+                  </span>
+                </div>
+                
+                    <div class="progress">
+    <div class="wrapper">
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#how-to-access-an-eks-worker-node">How to access an EKS Worker Node</a></li>
+    <li><a href="#operative-system-stats-and-logs">Operative System stats and logs</a></li>
+    <li><a href="#installing-and-using-atop">Installing and using atop</a>
+      <ul>
+        <li><a href="#atop-data">Atop data</a></li>
+      </ul>
+    </li>
+    <li><a href="#other-useful-tools">Other useful tools</a></li>
+    <li><a href="#system-logs">System Logs</a></li>
+    <li><a href="#kubelet-logs">kubelet logs</a></li>
+    <li><a href="#docker-daemon-logs">docker daemon logs</a></li>
+    <li><a href="#containerd-logs">containerd logs</a></li>
+    <li><a href="#ipam-daemon-logs">IPAM daemon logs</a></li>
+    <li><a href="#collecting-data-from-multiple-nodes">Collecting data from multiple nodes</a>
+      <ul>
+        <li><a href="#aws-ssm-run-command">AWS SSM Run Command</a></li>
+      </ul>
+    </li>
+    <li><a href="#aws-ssm-premium-support-document">AWS SSM Premium Support document</a></li>
+  </ul>
+</nav>
+    </div>
+</div>
+
+                
+              </div>
+            </div>
+            
+        <div id="head-tags">
+        
+        </div>
+        
+        <div id="body-inner">
+          
+            <h1>
+              
+              Data Plane - Worker Node Logs
+            </h1>
+          
+
+        
+
+
+
+<p>Even though Kubernetes is a distributed platform for running containers, some of the most complex problems in a Kubernetes setup requires to inspect worker nodes joined to the cluster to host Kubernetes pods.</p>
+<p>There a some important components that will directly impact Kubernetes but Kubernetes itself doesn&rsquo;t provide a mechanism to review them via the standard Kubernetes API, such as: the linux kernel, worker node access audit, daemons executed directly in the worker node (not Kubernets daemonsets), or <code>kubelet</code> itself.</p>
+<p>To review those components we need to find a way to forward logs from those components to a central location, or access the worker node to get system information. As setting up a full monitoring solution is out of the scope of this workshop, we will focus on how to access or get information directly from the Worker Nodes and what are the most important system logs that have to be seen.</p>
+<p>In this workshop we assume you are using EKS Worker Nodes based on the EKS Optimized AMI which comes with the SSM Agent already installed.</p>
+<h2 id="how-to-access-an-eks-worker-node">How to access an EKS Worker Node</h2>
+<p>From the <code>Cloud 9</code> terminal window, let&rsquo;s execute the following commands:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># Get a Worker Node EC2 ID</span>
+EC2ID<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>kubectl describe node <span style="color:#66d9ef">$(</span> kubectl get node -l nodegroup-role<span style="color:#f92672">=</span>web-workload -o jsonpath<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;{.items[0].metadata.name}&#39;</span><span style="color:#66d9ef">)</span> | grep ProviderID | cut -d/ -f 5<span style="color:#66d9ef">)</span>
+
+<span style="color:#75715e"># Access EC2 instance using SSM Session Manager</span>
+aws ssm start-session --target $EC2ID
+
+<span style="color:#75715e"># Become root </span>
+sudo su -
+</code></pre></div><h2 id="operative-system-stats-and-logs">Operative System stats and logs</h2>
+<p>When troubleshooting an EKS Worker Node it is important to collect as much information as possible from the system in order to detect a problem.</p>
+<p>Most common stats we look into when troubleshooting an EKS Worker Node are: CPU/MEM/IO. Linux offer a broad number of tools for inspecting these stats, a thing to take into account is that most of the tools offered by Linux are not &ldquo;container&rdquo; aware and this is normal as there is no such thing as a &ldquo;container&rdquo; resource in the Linux kernel, a &ldquo;container&rdquo; is no more than a regular Linux process that make use of several Kernel features to isolate and control it, some of these Kernel features are: <code>cgroups</code>, <code>namespaces</code>, <code>layered filesystems</code>.</p>
+<p>A pretty common tool to review basic CPU/MEM stats at system wide and process level is the <code>top</code> command, in this workshop we will use <code>atop</code> which is tool that bring same capabilities as <code>top</code> but add more information such as <code>network</code>, and <code>Disk IO</code> stats.</p>
+<h2 id="installing-and-using-atop">Installing and using atop</h2>
+<ol>
+<li>Enable EPEL repository</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo amazon-linux-extras install epel
+</code></pre></div><ol start="2">
+<li>Install atop</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo yum -y install atop --enablerepo<span style="color:#f92672">=</span>epel
+</code></pre></div><ol start="3">
+<li>Run atop</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">atop
+</code></pre></div><h3 id="atop-data">Atop data</h3>
+<p>Atop present data using two different sections, in a similar fashion as the <code>top</code> command, the first section at the top is the system wide stats that show data such as: CPU, MEM, Network, Disk usage. An interesting thing that can be seen is that it is capable to show per CPU, per Network device, or per Disk level metric:</p>
+<pre><code>PRC | sys    0.26s |               | user   1.04s |              |              |  #proc    182 |              | #trun      3 | #tslpi   915  |              | #tslpu    46 | #zombie    0 |               | clones   143 |              |              |  #exit     53 |              |
+CPU | sys       3% |               | user      8% |              | irq       0% |               |              | idle    189% |               | wait      0% |              | steal     0% |               | guest     0% |              |              |  curf 2.30GHz |              |
+cpu | sys       2% |               | user      4% |              | irq       0% |               |              | idle     94% |               | cpu001 w  0% |              | steal     0% |               | guest     0% |              |              |  curf 2.30GHz |              |
+0pu | sys       2% |               | user      4% |              | irq       0% |               |              | idle     95% |               | cpu001 w  0% |              | steal     0% |               | guest     0% |              |              |  curf 2.30GHz |              |
+CPL | avg1    0.11 |               | avg5    0.17 |              | avg15   0.17 |               |              |              |               | csw    34959 |              | intr   24769 |               |              |              |              |  numcpu     2 |              |
+MEM | tot     7.8G | free    1.3G  | cache   4.4G |              | dirty   0.2M |  buff    2.6M | slab  460.3M | slrec 270.3M |               |              | shmem   2.4M | shrss   0.0M | shswp   0.0M  |              |              |              |               | numnode    1 |
+SWP | tot     0.0M |               | free    0.0M |              | swcac   0.0M |               |              |              |               |              |              |              |               | vmcom   8.3G |              |              |  vmlim   3.9G |              |
+DSK |         xvda | busy      0%  |              | read       0 | write     11 |               | discrd     0 | KiB/r      0 |               | KiB/w      7 | KiB/d      0 |              | MBr/s    0.0  | MBw/s    0.0 |              | avq     0.00 |  avio 0.73 ms |              |
+DSK |        xvda1 | busy      0%  |              | read       0 | write     11 |               | discrd     0 | KiB/r      0 |               | KiB/w      7 | KiB/d      0 |              | MBr/s    0.0  | MBw/s    0.0 |              | avq     0.00 |  avio 0.73 ms |              |
+NET | transport    | tcpi     341  |              | tcpo     356 | udpi       3 |               | udpo       3 | tcpao     52 |               | tcppo      2 | tcprs      0 |              | tcpie      0  | tcpor      5 |              | udpnp      0 |  udpie      0 |              |
+NET | network      |               | ipi      514 |              | ipo      526 |  ipfrw    170 |              | deliv    344 |               |              |              |              |               |              | icmpi      0 |              |  icmpo      0 |              |
+NET | eth0      0% |               | pcki     282 |              | pcko     293 |               | sp   10 Gbps | si   51 Kbps | so   92 Kbps  |              |              | coll       0 | mlti       0  | erri       0 | erro       0 |              |  drpi       0 | drpo       0 |
+NET | eth1      0% |               | pcki      15 |              | pcko      26 |               | sp   10 Gbps | si    4 Kbps | so    1 Kbps  |              |              | coll       0 | mlti       0  | erri       0 | erro       0 |              |  drpi       0 | drpo       0 |
+NET | eni2181 ---- |               | pcki      39 |              | pcko      41 |               | sp    0 Mbps | si    5 Kbps | so    9 Kbps  |              |              | coll       0 | mlti       0  | erri       0 | erro       0 |              |  drpi       0 | drpo       0 |
+NET | enif921 ---- |               | pcki       5 |              | pcko       5 |               | sp    0 Mbps | si   10 Kbps | so    0 Kbps  |              |              | coll       0 | mlti       0  | erri       0 | erro       0 |              |  drpi       0 | drpo       0 |
+NET | eni5d45 ---- |               | pcki      46 |              | pcko      39 |               | sp    0 Mbps | si    4 Kbps | so    3 Kbps  |              |              | coll       0 | mlti       0  | erri       0 | erro       0 |              |  drpi       0 | drpo       0 |
+NET | eni0b2d ---- |               | pcki      30 |              | pcko      30 |               | sp    0 Mbps | si    3 Kbps | so    2 Kbps  |              |              | coll       0 | mlti       0  | erri       0 | erro       0 |              |  drpi       0 | drpo       0 |
+NET | eni5d94 ---- |               | pcki      17 |              | pcko      13 |               | sp    0 Mbps | si    1 Kbps | so    3 Kbps  |              |              | coll       0 | mlti       0  | erri       0 | erro       0 |              |  drpi       0 | drpo       0 |
+NET | enid97f ---- |               | pcki      16 |              | pcko      14 |               | sp    0 Mbps | si    1 Kbps | so    3 Kbps  |              |              | coll       0 | mlti       0  | erri       0 | erro       0 |              |  drpi       0 | drpo       0 |
+NET | lo      ---- |               | pcki      42 |              | pcko      42 |               | sp    0 Mbps | si    2 Kbps | so    2 Kbps  |              |              | coll       0 | mlti       0  | erri       0 | erro       0 |              |  drpi       0 | drpo       0 |
+NET | eni9360 ---- |               | pcki      14 |              | pcko      13 |               | sp    0 Mbps | si    1 Kbps | so    0 Kbps  |              |              | coll       0 | mlti       0  | erri       0 | erro       0 |              |  drpi       0 | drpo       0 |
+NET | eni8ef2 ---- |               | pcki       4 |              | pcko       6 |               | sp    0 Mbps | si    0 Kbps | so    0 Kbps  |              |              | coll       0 | mlti       0  | erri       0 | erro       0 |              |  drpi       0 | drpo       0 |
+NET | enib4ef ---- |               | pcki       2 |              | pcko       3 |               | sp    0 Mbps | si    0 Kbps | so    0 Kbps  |              |              | coll       0 | mlti       0  | erri       0 | erro       0 |              |  drpi       0 | drpo       0 |
+NET | enibc18 ---- |               | pcki       2 |              | pcko       1 |               | sp    0 Mbps | si    0 Kbps | so    0 Kbps  |              |              | coll       0 | mlti       0  | erri       0 | erro       0 |              |  drpi       0 | drpo       0 |
+NET | eni2acd ---- |               | pcki       1 |              | pcko       2 |               | sp    0 Mbps | si    0 Kbps | so    0 Kbps  |              |              | coll       0 | mlti       0  | erri       0 | erro       0 |              |  drpi       0 | drpo       0 |
+NET | eni62ac ---- |               | pcki       2 |              | pcko       2 |               | sp    0 Mbps | si    0 Kbps | so    0 Kbps  |              |              | coll       0 | mlti       0  | erri       0 | erro       0 |              |  drpi       0 | drpo       0 |
+NET | eni56f4 ---- |               | pcki       2 |              | pcko       2 |               | sp    0 Mbps | si    0 Kbps | so    0 Kbps  |              |              | coll       0 | mlti       0  | erri       0 | erro       0 |              |  drpi       0 | drpo       0 |
+</code></pre><p>The bottom part will show per process metrics, by default it will show a <code>generic</code> view, in this workshop will use only this view.</p>
+<pre><code>  PID          CID                   SYSCPU          USRCPU          RDELAY           VGROW           RGROW           RDDSK           WRDSK           RUID              EUID              ST          EXC           THR          S          CPUNR           CPU          CMD         1/5
+ 7478          host--------           0.46s           1.10s           0.84s              0B          548.0K              0B              0B           root              root              --            -            15          S              0            5%          kubelet
+ 7164          host--------           0.09s           0.70s           0.36s              0B              0B              0B           32.0K           root              root              --            -            32          S              0            3%          dockerd
+14170          78f0ab262c2d           0.00s           0.12s           0.07s              0B              0B              0B           48.0K           chrony            chrony            --            -            34          S              0            0%          mongod
+13887          56ee1595fdc1           0.00s           0.11s           0.00s              0B          -64.0K              0B           20.0K           chrony            chrony            --            -            35          S              1            0%          mongod
+15481          2f7d7a0a9ceb           0.00s           0.10s           0.05s              0B              0B              0B              0B           chrony            chrony            --            -            70          S              1            0%          beam.smp
+ 9382          ae8b43e9f199           0.02s           0.08s           0.37s              0B              0B              0B              0B           nfsnobod          nfsnobod          --            -             8          S              0            0%          node_exporter
+ 7072          host--------           0.01s           0.07s           0.13s              0B              0B              0B              0B           root              root              --            -            15          S              0            0%          containerd
+17290          host--------           0.03s           0.03s           0.00s           -0.9M           -1.0M              0B              0B           root              root              --            -             1          R              0            0%          atop
+13496          f2cd327eb2c6           0.00s           0.05s           0.02s              0B              0B              0B              0B           root              root              --            -            11          S              1            0%          coredns
+  609          host--------           0.02s           0.03s           0.01s              0B              0B              0B            8.0K           root              root              --            -             9          S              1            0%          ssm-session-wo
+13915          220d0c701f13           0.01s           0.02s           0.00s              0B              0B              0B              0B           10001             10001             --            -            27          S              0            0%          java
+14008          820dbee6c64c           0.01s           0.02s           0.00s              0B              0B              0B            4.0K           root              root              --            -            30          S              1            0%          java
+ 4707          f525fb74eada           0.01s           0.02s           0.02s              0B              0B              0B              0B           65532             65532             --            -             9          S              0            0%          controller
+</code></pre><p>In this section it is interesting to see the column <code>CID</code> this column is actually showing the Container ID of a process, if the process is not running within a Docker container then this column will show <code>host</code> instead.</p>
+<p>If you&rsquo;d like to know more advanced usage of <code>atop</code> you can see this AWS Premium Support article <a href="https://aws.amazon.com/premiumsupport/knowledge-center/ec2-linux-monitor-stats-with-atop/">https://aws.amazon.com/premiumsupport/knowledge-center/ec2-linux-monitor-stats-with-atop/</a></p>
+<h2 id="other-useful-tools">Other useful tools</h2>
+<p>Other useful tools to collect system data for troubleshooting are:</p>
+<ul>
+<li><code>ss</code> for network connections</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ss -atup
+</code></pre></div><ul>
+<li><code>lsof</code> to review open files per processes</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">lsof -p &lt;PID&gt;
+</code></pre></div><ul>
+<li><code>iptables</code> to review firewall and routing rules</li>
+</ul>
+<pre><code># iptables rules
+iptables -nL -v
+
+# iptables rules in NAT table
+iptables -nL -v -t nat
+
+# iptables rules added by Kubernetes services
+iptables -t nat -L KUBE-SERVICES -n -v
+
+</code></pre><h2 id="system-logs">System Logs</h2>
+<p>As most Linux distributions all operative system logs can be seen in directory <code>/var/log</code>, specific files for operative system logs are <code>messages</code>, <code>secure</code>, <code>dmesg</code>, <code>boot.log</code>. As Amazon Linux 2 uses <code>systemd</code> then you can use also <code>journalctl</code> to view system logs:</p>
+<pre><code># General linux logs
+journalctl 
+
+# Kernel specific logs
+journalctl -k
+</code></pre><h2 id="kubelet-logs">kubelet logs</h2>
+<p>To see <code>kubelet</code> status you must run the following command:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl status kubelet
+</code></pre></div><p>Check if <code>kubelet</code> is listening for connections</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ss -lpn | grep <span style="color:#66d9ef">$(</span>pidof kubelet<span style="color:#66d9ef">)</span>
+</code></pre></div><p>Check list of open files by kubelet</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">lsof -p <span style="color:#66d9ef">$(</span>pidof kubelet<span style="color:#66d9ef">)</span>
+</code></pre></div><p>Check <code>kubelet</code> logs:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">journalctl -u kubelet
+</code></pre></div><h2 id="docker-daemon-logs">docker daemon logs</h2>
+<p>To see <code>docker</code> status you must run the following command:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl status docker
+</code></pre></div><p>Check if <code>docker</code> is listening for connections</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ss -lpn | grep <span style="color:#66d9ef">$(</span>pidof dockerd<span style="color:#66d9ef">)</span>
+</code></pre></div><p>Check list of open files by <code>docker</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">lsof -p <span style="color:#66d9ef">$(</span>pidof dockerd<span style="color:#66d9ef">)</span>
+</code></pre></div><p>Check <code>docker</code> logs:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">journalctl -u docker
+</code></pre></div><h2 id="containerd-logs">containerd logs</h2>
+<p>To see <code>containerd</code> status you must run the following command:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl status containerd
+</code></pre></div><p>Check if <code>containerd</code> is listening for connections</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ss -lpn | grep <span style="color:#66d9ef">$(</span>pidof containerd<span style="color:#66d9ef">)</span>
+</code></pre></div><p>Check list of open files by <code>containerd</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">lsof -p <span style="color:#66d9ef">$(</span>pidof containerd<span style="color:#66d9ef">)</span>
+</code></pre></div><p>Check <code>containerd</code> logs:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">journalctl -u containerd
+</code></pre></div><h2 id="ipam-daemon-logs">IPAM daemon logs</h2>
+<p>The IP address management plugin is a component used by the CNI to maintain a warm-pool of available secondary IP addresses, logs generated by this plugin are stored locally in the Worker Node host so it is not possible to view them using the <code>kubectl logs</code> command, logs generated by this component are stored at <code>/var/log/aws-routed-eni</code> and provide detailed information about how the CNI is assigning IP addresses to Pods started in that specific Worker Node. So, if you need to troubleshoot CNI issues then these are the logs you are looking for.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">tail -n <span style="color:#ae81ff">100</span> /var/log/aws-routed-eni/ipamd.log
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">tail -n <span style="color:#ae81ff">100</span> /var/log/aws-routed-eni/plugin.log
+</code></pre></div><h2 id="collecting-data-from-multiple-nodes">Collecting data from multiple nodes</h2>
+<p>There are times when complex troubleshooting needs to be performed and you need to collect data from multiple or even all worker nodes for deeper inspection. Fortunately, as the EKS Optimized AMI comes with the SSM agent already installed this is an easy task.</p>
+<h3 id="aws-ssm-run-command">AWS SSM Run Command</h3>
+<p>If you need to run a command in multiple nodes and get the result of the command output then you can use AWS SSM Run Command for this task.</p>
+<ol>
+<li>Let&rsquo;s check the Worker Nodes are successfully associated to SSM</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">aws ssm describe-instance-information <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --filters <span style="color:#e6db74">&#34;Key=tag-key,Values=kubernetes.io/cluster/troubleshoot-workshop&#34;</span>
+</code></pre></div><ol start="2">
+<li>If previous command returned a list of instances, then you can use the following command to send the execution to all registered instances</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">aws ssm send-command <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --targets <span style="color:#e6db74">&#34;Key=tag:kubernetes.io/cluster/troubleshoot-workshop,Values=owned&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --document-name <span style="color:#e6db74">&#34;AWS-RunShellScript&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --parameters <span style="color:#e6db74">&#34;commands=curl http://localhost:61679/v1/enis | python -m json.tool&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>		--output-s3-bucket-name <span style="color:#e6db74">${</span>S3_BUCKET<span style="color:#e6db74">}</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>		--output-s3-key-prefix <span style="color:#e6db74">&#34;/&#34;</span>
+</code></pre></div><ol start="3">
+<li>View command output
+3.1. Access System Manager console
+<img src="../../images/troubleshoot/system_manager_00.png" alt="systemmanagerconsole">
+3.2. Access Run Command Console
+<img src="../../images/troubleshoot/run_command_menu.png" alt="runcommandmenu">
+3.3. Click command history tab
+<img src="../../images/troubleshoot/command_history.png" alt="commandhistory">
+3.4. Click the command ID
+<img src="../../images/troubleshoot/command_id.png" alt="commandid">
+3.5. Click on one of the Instances ID and expand the Output section
+<img src="../../images/troubleshoot/command_output.png" alt="commandoutput"></li>
+</ol>
+<p>At this stage you should also have all command outputs stored in the S3 bucket we specified in the <code>send-command</code> parameters.</p>
+<h2 id="aws-ssm-premium-support-document">AWS SSM Premium Support document</h2>
+<p>The AWS Premium Support team has prepared the &ldquo;AWSSupport-CollectEKSInstanceLogs&rdquo; AWS SSM Document to collect most important data you need to collect from an EKS worker node for troubleshooting, you can use this document at anytime for your own troubleshooting.</p>
+<p>Run the following command to execute the automation:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">aws ssm start-automation-execution <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>	--document-name <span style="color:#e6db74">&#34;AWSSupport-CollectEKSInstanceLogs&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>	--document-version <span style="color:#e6db74">&#34;\$DEFAULT&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>	--parameters <span style="color:#e6db74">&#34;{\&#34;EKSInstanceId\&#34;:[\&#34; \&#34;],\&#34;LogDestination\&#34;:[\&#34;</span><span style="color:#e6db74">${</span>S3_BUCKET<span style="color:#e6db74">}</span><span style="color:#e6db74">\&#34;]}&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>	--target-parameter-name EKSInstanceId --targets <span style="color:#e6db74">&#39;[{&#34;Key&#34;:&#34;tag:kubernetes.io/cluster/troubleshoot-workshop&#34;,&#34;Values&#34;:[&#34;owned&#34;]}]&#39;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>	--max-errors <span style="color:#e6db74">&#34;1&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>	--max-concurrency <span style="color:#e6db74">&#34;100%&#34;</span>
+</code></pre></div><p>To see the logs you should open the S3 console and open the S3 bucket provided to the command, you should see several files like this one <code>eks_i-049409aed777a71bb_fb9ff9e5-6011-4a89-a2e2-c7c1fb24b7d7.tar.gz</code>. Download it and open the .tar.gz file.</p>
+
+
+<footer class=" footline" >
+	
+</footer>
+
+
+        
+        </div> 
+        
+
+      </div>
+
+    <div id="navigation">
+        
+        
+        
+        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+        
+        
+
+
+	 
+	 
+		
+			<a class="nav nav-prev" href="../../troubleshooting/describe/" title="Data Plane - Get and Describe resources"> <i class="fa fa-chevron-left"></i></a>
+		
+		
+			<a class="nav nav-next" href="../../troubleshooting/dpmetrics/" title="Data Plane - Metrics" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+		
+	
+    </div>
+
+    </section>
+    
+    <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
+      <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
+    </div>
+    <script src="../../js/clipboard.min.js?1650587409"></script>
+    <script src="../../js/perfect-scrollbar.min.js?1650587409"></script>
+    <script src="../../js/perfect-scrollbar.jquery.min.js?1650587409"></script>
+    <script src="../../js/jquery.sticky.js?1650587409"></script>
+    <script src="../../js/featherlight.min.js?1650587409"></script>
+    <script src="../../js/highlight.pack.js?1650587409"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="../../js/modernizr.custom-3.6.0.js?1650587409"></script>
+    <script src="../../js/learn.js?1650587409"></script>
+    <script src="../../js/hugo-learn.js?1650587409"></script>
+
+    <link href="../../mermaid/mermaid.css?1650587409" rel="stylesheet" />
+    <script src="../../mermaid/mermaid.js?1650587409"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+    <script>
+    if('serviceWorker' in navigator) {
+        navigator.serviceWorker
+            .register('/sw.js', { scope: '/' })
+            .then(function(registration) {
+                console.log('Service Worker Registered');
+            });
+
+        navigator.serviceWorker
+            .ready
+            .then(function(registration) {
+                console.log('Service Worker Ready');
+            });
+    }
+</script>
+
+<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "2fa79da3827f4019b94a058861300bc1"}'></script>
+
+
+
+  </body>
+</html>
+

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Options for Troubleshooting on Amazon EKS Workshop</title>
+    <link>/troubleshooting/</link>
+    <description>Recent content in Options for Troubleshooting on Amazon EKS Workshop</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language><atom:link href="/troubleshooting/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Data Plane - Container Logs</title>
+      <link>/troubleshooting/containerlogs/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/troubleshooting/containerlogs/</guid>
+      <description>A common (and best) practice in Kubernetes is applications outputing logs to the Operative System standard output (STDOUT), or standard error (STDERR). Then Kubernetes will automatically collect data from the STDOUT/STDERR and forward to a file within the Worker Node. In EKS these log files are automatically configured to have fixed size in order to avoid filling the Worker Node hard disk, for log retention is recommended to use a log collection agent and forward to a log storage engine such as, Cloudwatch Logs, or Opensearch.</description>
+    </item>
+    
+    <item>
+      <title>Data Plane - Kubernetes Events</title>
+      <link>/troubleshooting/events/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/troubleshooting/events/</guid>
+      <description>An event is a Kubernetes resource that report a state change within the cluster. Events have a limited retention time. Events are harldy tied to specific resources, meaning that most of the Kubernetes resources such as, Pod, Deployments, Services, etc. generates events informing that some change or action has been executed.
+Kubernetes events are namespace scoped and can be retrived by using the kubectl events command, events for a specific resource can be seen by describing the resource, we will see this in next section.</description>
+    </item>
+    
+    <item>
+      <title>Data Plane - Get and Describe resources</title>
+      <link>/troubleshooting/describe/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/troubleshooting/describe/</guid>
+      <description>The kubectl command offer several options for rapid troubleshooting, we already mentioned the logs subcommand. In this section we are going to show the get and describe commands.
+kubectl get This command allow you to query resources installed in the Kubernetes cluster, the basic syntax of this command is: kubectl get [OPTIONS] RESOURCE TYPE [RESOURCE NAME]
+Example:
+kubectl get nodes NAME STATUS ROLES AGE VERSIONip-10-10-1-155.eu-central-1.compute.internal Ready &amp;lt;none&amp;gt; 27d v1.21.5-eks-9017834ip-10-10-1-209.</description>
+    </item>
+    
+    <item>
+      <title>Data Plane - Worker Node Logs</title>
+      <link>/troubleshooting/workers/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/troubleshooting/workers/</guid>
+      <description>Even though Kubernetes is a distributed platform for running containers, some of the most complex problems in a Kubernetes setup requires to inspect worker nodes joined to the cluster to host Kubernetes pods.
+There a some important components that will directly impact Kubernetes but Kubernetes itself doesn&amp;rsquo;t provide a mechanism to review them via the standard Kubernetes API, such as: the linux kernel, worker node access audit, daemons executed directly in the worker node (not Kubernets daemonsets), or kubelet itself.</description>
+    </item>
+    
+    <item>
+      <title>Data Plane - Metrics</title>
+      <link>/troubleshooting/dpmetrics/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/troubleshooting/dpmetrics/</guid>
+      <description>Metrics are mostly numerical data points measured over intervals of time forming a time series. Metrics are an essential source for troubleshooting problems in your infrastructure, but reviewing raw metrics is not useful, the right way to investigate metrics is by keeping historical data of metrics. So, it will let you know changes in the behaviour of your platform and applications. For this reason it is important to store metrics in a timeseries database.</description>
+    </item>
+    
+    <item>
+      <title>Control Plane - Metrics</title>
+      <link>/troubleshooting/cpmetrics/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/troubleshooting/cpmetrics/</guid>
+      <description>EKS Control Plane has been designed for scale and high availability, it is capable of handling large clusters. For the vast majority of customers and use cases the control plane will scale to handle the Kubernetes requests. However in certain scenarios such as a sudden extreme increase in Kubernetes API traffic, or spiky scaling workloads where the cluster may be idle for long times, can impact control plane performance.
+Evaluating the scalability of a Kubernetes control plane is a complex topic and there are a number of factors from that can impact the performance of a cluster.</description>
+    </item>
+    
+    <item>
+      <title>Control Plane - Logs</title>
+      <link>/troubleshooting/cplogs/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/troubleshooting/cplogs/</guid>
+      <description>The EKS Control Plane is able to deliver logs to CloudWatch log groups in your account, this is not enabled by default as it does imply additional costs for CloudWatch Logs storage and ingestion. To enable EKS Control Plane logs follow this instructions: https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html
+Strictly speaking of troubleshooting the most important logs to detect problems in Kubernetes control plane are:
+  Kubernetes API server component logs (api) – Your cluster&amp;rsquo;s API server is the control plane component that exposes the Kubernetes API.</description>
+    </item>
+    
+  </channel>
+</rss>

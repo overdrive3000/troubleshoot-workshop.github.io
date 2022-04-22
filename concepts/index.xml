@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Concepts on Amazon EKS Workshop</title>
+    <link>/concepts/</link>
+    <description>Recent content in Concepts on Amazon EKS Workshop</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language><atom:link href="/concepts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Kubernetes Components</title>
+      <link>/concepts/k8s/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/concepts/k8s/</guid>
+      <description>Kubernetes Control Plane and Data Plane components:
+ From https://kubernetes.io/docs/concepts/overview/components/
+ Control Plane Components  Kubernetes API Server: Kubernetes API front-end, all requests made to the Kubernets cluster pass through this component etcd: Main Kubernetes database, all information of your Kubernetes cluster will be stored in here. Kubernetes Scheduler: Component in charge of placing pods in worker nodes based on a complex set of decision rules. Kubernetes Controller Manager (KCM): This component runs all controllers within the cluster, these are managed through a control loop which keep watching the desired state of a kubernetes resource against it current status.</description>
+    </item>
+    
+    <item>
+      <title>EKS Components</title>
+      <link>/concepts/eks/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/concepts/eks/</guid>
+      <description>What is EKS  EKS provides a managed Kubernetes experience for performant, reliable, and secure Kubernetes. EKS makes Kubernetes operations, administration, and management simple and boring. EKS runs vanilla Kubernetes. EKS is upstream and certified conformant version of Kubernetes. EKS supports 4 versions of Kubernetes, giving customers time to test and roll out upgrades.  EKS Architecture and Components EKS Logical Overview  From Amazon EKS Under the Hood https://www.youtube.com/watch?v=7vxDWDD2YnM</description>
+    </item>
+    
+  </channel>
+</rss>

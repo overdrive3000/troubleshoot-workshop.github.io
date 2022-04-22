@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>/introduction/</loc>
+  </url>
+  
+  <url>
+    <loc>/concepts/</loc>
+  </url>
+  
+  <url>
+    <loc>/concepts/k8s/</loc>
+  </url>
+  
+  <url>
+    <loc>/concepts/eks/</loc>
+  </url>
+  
+  <url>
+    <loc>/getting-started/</loc>
+  </url>
+  
+  <url>
+    <loc>/getting-started/using-cloud9/</loc>
+  </url>
+  
+  <url>
+    <loc>/troubleshooting/</loc>
+  </url>
+  
+  <url>
+    <loc>/troubleshooting/containerlogs/</loc>
+  </url>
+  
+  <url>
+    <loc>/troubleshooting/events/</loc>
+  </url>
+  
+  <url>
+    <loc>/troubleshooting/describe/</loc>
+  </url>
+  
+  <url>
+    <loc>/troubleshooting/workers/</loc>
+  </url>
+  
+  <url>
+    <loc>/troubleshooting/dpmetrics/</loc>
+  </url>
+  
+  <url>
+    <loc>/troubleshooting/cpmetrics/</loc>
+  </url>
+  
+  <url>
+    <loc>/troubleshooting/cplogs/</loc>
+  </url>
+  
+  <url>
+    <loc>/microservice/</loc>
+  </url>
+  
+  <url>
+    <loc>/microservice/addons/</loc>
+  </url>
+  
+  <url>
+    <loc>/microservice/tools/</loc>
+  </url>
+  
+  <url>
+    <loc>/microservice/microservice/</loc>
+  </url>
+  
+  <url>
+    <loc>/traffic/</loc>
+  </url>
+  
+  <url>
+    <loc>/traffic/simulator/</loc>
+  </url>
+  
+  <url>
+    <loc>/traffic/trafficview/</loc>
+  </url>
+  
+  <url>
+    <loc>/traffic/exercise/</loc>
+  </url>
+  
+  <url>
+    <loc>/extras/</loc>
+  </url>
+  
+  <url>
+    <loc>/extras/exec/</loc>
+  </url>
+  
+  <url>
+    <loc>/extras/cni/</loc>
+  </url>
+  
+  <url>
+    <loc>/cleanup/</loc>
+  </url>
+  
+  <url>
+    <loc>/categories/</loc>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+  </url>
+  
+  <url>
+    <loc>/</loc>
+  </url>
+  
+</urlset>

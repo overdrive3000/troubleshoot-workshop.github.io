@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Injecting Traffic on Amazon EKS Workshop</title>
+    <link>/traffic/</link>
+    <description>Recent content in Injecting Traffic on Amazon EKS Workshop</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language><atom:link href="/traffic/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Installing Traffic Simulation Client</title>
+      <link>/traffic/simulator/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/traffic/simulator/</guid>
+      <description>In order to demonstrate how to troubleshoot problems in live environments, we will deploy a client outside of our EKS cluster that will hit our application to simulate traffic. To do this we will deploy a simple ECS Fargate cluster that will run a locust application performing few actions in our Sock Shop application, this Fargate cluster we will deployed in another VPC in order to simulate real traffic as much as possible.</description>
+    </item>
+    
+    <item>
+      <title>Inspect Microservice traffic</title>
+      <link>/traffic/trafficview/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/traffic/trafficview/</guid>
+      <description>Application Load Balancer metrics The easiest way to review if our microservice is receiving traffic from outside world is by checking Cloudwatch metrics for the entrypoint load balancer managed by the Ingress controller.
+ Open the AWS EC2 console Click Target Groups at the left menu  Select the Target Group corresponding to the front end microservice  At the bottom, click on the Monitoring tab   These metrics will let us know how our microservice is handling external connections.</description>
+    </item>
+    
+    <item>
+      <title>Exercises</title>
+      <link>/traffic/exercise/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/traffic/exercise/</guid>
+      <description>Part 1 At this stage you have the microservice running and a set of clients using your application, but in last section you should&amp;rsquo;ve noticed that the application is throwing a considerable number of 5xx errors. You have 15 minutes to fix most of the 5xx errors.
+Goal  Fix most of the 5xx errors  Part 2  Have you fixed 5xx errors? What if we increment the application traffic?</description>
+    </item>
+    
+  </channel>
+</rss>

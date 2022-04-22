@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Extras on Amazon EKS Workshop</title>
+    <link>/extras/</link>
+    <description>Recent content in Extras on Amazon EKS Workshop</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language><atom:link href="/extras/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Debug running pods</title>
+      <link>/extras/exec/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/extras/exec/</guid>
+      <description>Sometimes when debugging problems in our applications it is required to access the application container to have a better understanding about what is going on. The kubectl command offer an interface to execute remote commands in our containers, you can even get a shell within the container, in order to do that you need a shell installed within the container image.
+The Kubernetes documentation have an excellent documentation about how to use kubectl exec to debug applications https://kubernetes.</description>
+    </item>
+    
+    <item>
+      <title>Amazon VPC CNI for Kubernetes</title>
+      <link>/extras/cni/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/extras/cni/</guid>
+      <description>How Amazon VPC CNI for k8s works As mentioned earlier, the Amazon VPC CNI for k8s is the addon in charge of assigning IP addresses to our Pods in an EKS cluster, by default it will assign real IP addresses from the Amazon VPC we have configured in our EKS cluster. Let&amp;rsquo;s discuss in more detail how it does work.
+Config variables The Amazon VPC CNI for k8s allow multiple configuration variables that will modify its behaviour or even enable new features such as, prefix delegation, or custom networking.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Getting Started on Amazon EKS Workshop</title>
+    <link>/getting-started/</link>
+    <description>Recent content in Getting Started on Amazon EKS Workshop</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language><atom:link href="/getting-started/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Using Cloud 9</title>
+      <link>/getting-started/using-cloud9/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/getting-started/using-cloud9/</guid>
+      <description>Visit Cloud9 console and click Shared with you menu option:
+Then click the Open IDE button the troubleshoot-workshop environment.
+Configure AWS CLI with the current AWS Region as default: Execute the following commands in the terminal:
+ This script configures the AWS CLI to use the current region as the default.
+ export ACCOUNT_ID=$(aws sts get-caller-identity --output text --query Account) export AWS_REGION=$(curl -s 169.254.169.254/latest/dynamic/instance-identity/document | jq -r &amp;#39;.region&amp;#39;) echo &amp;#34;export ACCOUNT_ID=${ACCOUNT_ID}&amp;#34; | tee -a ~/.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Installing Addons and Microservices on Amazon EKS Workshop</title>
+    <link>/microservice/</link>
+    <description>Recent content in Installing Addons and Microservices on Amazon EKS Workshop</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language><atom:link href="/microservice/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Installing Addons</title>
+      <link>/microservice/addons/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/microservice/addons/</guid>
+      <description>In this section let&amp;rsquo;s install a serie of Addons we need to have a fully functional and scalable cluster.
+ Change to the repository folder  cd troubleshoot-workshop Access the addons folder and execute the apply.sh script  cd addons/infra bash ./apply.sh helm ls --all-namespaces Exercise You have 10 minutes to review all components installed and verify everything is correct. In this exercise you should make use of the different techniques we have discussed previously such as get and describe resources, and checking components logs.</description>
+    </item>
+    
+    <item>
+      <title>Installing Troubleshooting Tools</title>
+      <link>/microservice/tools/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/microservice/tools/</guid>
+      <description>I previous version we were able to perform some trouebleshooting in our cluster, but we could notice that performing troubleshooting just using kubectl it could be cumbersome.
+In this section we will install some tools that we help us to inspect our cluster resources in an easy way, let&amp;rsquo;s start by installing some plugins for kubectl that will enhance the cli features.
+Installing kubectl plugins  Installing krew  ( set -x; cd &amp;#34;$(mktemp -d)&amp;#34; &amp;amp;&amp;amp; OS=&amp;#34;$(uname | tr &amp;#39;[:upper:]&amp;#39; &amp;#39;[:lower:]&amp;#39;)&amp;#34; &amp;amp;&amp;amp; ARCH=&amp;#34;$(uname -m | sed -e &amp;#39;s/x86_64/amd64/&amp;#39; -e &amp;#39;s/\(arm\)\(64\)\?</description>
+    </item>
+    
+    <item>
+      <title>Installing Sock Shop Microservice</title>
+      <link>/microservice/microservice/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/microservice/microservice/</guid>
+      <description>In this workshop we will use the popular sock-shop demo microservice from Weaveworks https://microservices-demo.github.io/.
+The main goal of this section is to have properlly working the sock-shop application, as in next sections we will start adding some traffic to it.
+Install the microservice  Change to the workshop folder  cd ${HOME}/environment/troubleshoot-workshop Deploy the microservice manifest  kubectl apply -f sock-shop/deploy.yaml Exercise Review that the microservice has been deployed properlly and you can access the Microservice front end.</description>
+    </item>
+    
+  </channel>
+</rss>
