@@ -179,7 +179,7 @@
 	"title": "Clean Up",
 	"tags": [],
 	"description": "",
-	"content": "Add instructions to clean up the environment\n"
+	"content": "kubectl delete -f ${HOME}/environment/troubleshoot-workshop/sock-shop/deploy.yaml\rhelm uninstall -n monitoring kube-ops-view\rhelm uninstall -n monitoring kube-prometheus-stack\rhelm uninstall -n litmus litmus\r"
 },
 {
 	"uri": "/categories/",
