@@ -13,20 +13,20 @@
     <title>Debug running pods :: Amazon EKS Workshop</title>
 
     
-    <link href="../../css/nucleus.css?1650587409" rel="stylesheet">
-    <link href="../../css/fontawesome-all.min.css?1650587409" rel="stylesheet">
-    <link href="../../css/hybrid.css?1650587409" rel="stylesheet">
-    <link href="../../css/featherlight.min.css?1650587409" rel="stylesheet">
-    <link href="../../css/perfect-scrollbar.min.css?1650587409" rel="stylesheet">
-    <link href="../../css/auto-complete.css?1650587409" rel="stylesheet">
-    <link href="../../css/atom-one-dark-reasonable.css?1650587409" rel="stylesheet">
-    <link href="../../css/theme.css?1650587409" rel="stylesheet">
-    <link href="../../css/hugo-theme.css?1650587409" rel="stylesheet">
+    <link href="../../css/nucleus.css?1650966587" rel="stylesheet">
+    <link href="../../css/fontawesome-all.min.css?1650966587" rel="stylesheet">
+    <link href="../../css/hybrid.css?1650966587" rel="stylesheet">
+    <link href="../../css/featherlight.min.css?1650966587" rel="stylesheet">
+    <link href="../../css/perfect-scrollbar.min.css?1650966587" rel="stylesheet">
+    <link href="../../css/auto-complete.css?1650966587" rel="stylesheet">
+    <link href="../../css/atom-one-dark-reasonable.css?1650966587" rel="stylesheet">
+    <link href="../../css/theme.css?1650966587" rel="stylesheet">
+    <link href="../../css/hugo-theme.css?1650966587" rel="stylesheet">
     
-      <link href="../../css/theme-mine.css?1650587409" rel="stylesheet">
+      <link href="../../css/theme-mine.css?1650966587" rel="stylesheet">
     
 
-    <script src="../../js/jquery-3.3.1.min.js?1650587409"></script>
+    <script src="../../js/jquery-3.3.1.min.js?1650966587"></script>
 
     <style>
       :root #header + #content > #left > #rlblock_left{
@@ -73,10 +73,10 @@
     <meta name="msapplication-wide310x150logo" content="/icons/mstile-310x150.png" />
     <meta name="msapplication-square310x310logo" content="/icons/mstile-310x310.png" />
 
-    <link href="../../mermaid/mermaid.css?1650587409" type="text/css" rel="stylesheet" />
-    <link href="../../css/jquery-ui.min.css?1650587409" rel="stylesheet">
-    <script src="../../js/jquery-ui-1.12.1.min.js?1650587409"></script>
-    <script src="../../mermaid/mermaid.min.js?1650587409"></script>
+    <link href="../../mermaid/mermaid.css?1650966587" type="text/css" rel="stylesheet" />
+    <link href="../../css/jquery-ui.min.css?1650966587" rel="stylesheet">
+    <script src="../../js/jquery-ui-1.12.1.min.js?1650966587"></script>
+    <script src="../../mermaid/mermaid.min.js?1650966587"></script>
     <script>
 	var config = {
         startOnLoad:true,
@@ -105,14 +105,14 @@
     <span data-search-clear=""><i class="fas fa-times"></i></span>
 </div>
 
-<script type="text/javascript" src="../../js/lunr.min.js?1650587409"></script>
-<script type="text/javascript" src="../../js/auto-complete.js?1650587409"></script>
+<script type="text/javascript" src="../../js/lunr.min.js?1650966587"></script>
+<script type="text/javascript" src="../../js/auto-complete.js?1650966587"></script>
 <script type="text/javascript">
     
         var baseurl = "";
     
 </script>
-<script type="text/javascript" src="../../js/search.js?1650587409"></script>
+<script type="text/javascript" src="../../js/search.js?1650966587"></script>
 
     
   </div>
@@ -892,55 +892,17 @@
 <p>Note: User and Password will be provided in classroom</p>
 </blockquote>
 <ol start="2">
-<li>Init litmus agent</li>
+<li>Init litmus config</li>
 </ol>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">litmusctl config set-account  --endpoint <span style="color:#e6db74">&#34;http://</span><span style="color:#66d9ef">$(</span>kubectl get service -n litmus litmus-frontend-service -o jsonpath<span style="color:#f92672">={</span>.status.loadBalancer.ingress<span style="color:#f92672">[</span>0<span style="color:#f92672">]</span>.hostname<span style="color:#f92672">}</span><span style="color:#66d9ef">)</span><span style="color:#e6db74">:9091&#34;</span> --password &lt;PASSWORD&gt; --username <span style="color:#e6db74">&#34;workshop&#34;</span>
 </code></pre></div><blockquote>
 <p>Note: Use password you set in Litmus portal</p>
 </blockquote>
-<p>2.1. Litmus config options</p>
-<pre><code>Project list:
-1.  workshop's project
-
-Select a project [Range: 1-1]: 1
-
-Installation Modes:
-1. Cluster
-2. Namespace
-
-Select Mode [Default: cluster] [Range: 1-2]: 1
-
- Running prerequisites check....
- clusterrole 
- clusterrolebinding 
- Sufficient permissions. Installing the Agent...
-
-Enter the details of the agent
-
-Agent Name: workshop
-
-Agent Description: 
-
-Do you want Agent to skip SSL/TLS check (Y/N) (Default: N): y
-
-Do you want NodeSelector to be added in the agent deployments (Y/N) (Default: N): 
-
-Do you want Tolerations to be added in the agent deployments? (Y/N) (Default: N): 
-
-Platform List: 
-1. AWS
-2. GKE
-3. Openshift
-4. Rancher
-5. Others
-
-Select a platform [Default: AWS] [Range: 1-5]: 1
-
-Enter the namespace (new or existing namespace) [Default: litmus]: 
- Continuing with litmus namespace
-
-Enter service account [Default: litmus]: 
-</code></pre><ol start="3">
+<p>2.1. Install litmus agent</p>
+<pre><code>litmusctl create agent --agent-name=&quot;workshop&quot; --non-interactive --project-id=&lt;PROJECT_ID&gt;
+</code></pre><!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<ol start="3">
 <li>Install Litmus experiments</li>
 </ol>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cd ~/environment/troubleshoot-workshop/failures/
@@ -1563,19 +1525,19 @@ kubectl delete -f controller-debug.yaml
     <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
       <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
     </div>
-    <script src="../../js/clipboard.min.js?1650587409"></script>
-    <script src="../../js/perfect-scrollbar.min.js?1650587409"></script>
-    <script src="../../js/perfect-scrollbar.jquery.min.js?1650587409"></script>
-    <script src="../../js/jquery.sticky.js?1650587409"></script>
-    <script src="../../js/featherlight.min.js?1650587409"></script>
-    <script src="../../js/highlight.pack.js?1650587409"></script>
+    <script src="../../js/clipboard.min.js?1650966587"></script>
+    <script src="../../js/perfect-scrollbar.min.js?1650966587"></script>
+    <script src="../../js/perfect-scrollbar.jquery.min.js?1650966587"></script>
+    <script src="../../js/jquery.sticky.js?1650966587"></script>
+    <script src="../../js/featherlight.min.js?1650966587"></script>
+    <script src="../../js/highlight.pack.js?1650966587"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-    <script src="../../js/modernizr.custom-3.6.0.js?1650587409"></script>
-    <script src="../../js/learn.js?1650587409"></script>
-    <script src="../../js/hugo-learn.js?1650587409"></script>
+    <script src="../../js/modernizr.custom-3.6.0.js?1650966587"></script>
+    <script src="../../js/learn.js?1650966587"></script>
+    <script src="../../js/hugo-learn.js?1650966587"></script>
 
-    <link href="../../mermaid/mermaid.css?1650587409" rel="stylesheet" />
-    <script src="../../mermaid/mermaid.js?1650587409"></script>
+    <link href="../../mermaid/mermaid.css?1650966587" rel="stylesheet" />
+    <script src="../../mermaid/mermaid.js?1650966587"></script>
     <script>
         mermaid.initialize({ startOnLoad: true });
     </script>
